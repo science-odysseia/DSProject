@@ -259,7 +259,7 @@ ros2 run pressedfinal time_sub
 
 ---
 
-## 프로젝트 기여자 (C-3조)
+## 프로젝트 기여자
 
 - 방현식 (문서 / 시스템 설계도)
 - 김찬혁 (시스템 모니터 / Web UI·DB)
