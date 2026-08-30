@@ -1,0 +1,10 @@
+Waypoint[] waypoints
+---
+bool success
+DetectedObject[] objects
+RawDetection[] raw_detections
+geometry_msgs/Point[] static_obstacle_points
+---
+string stage
+int32 snapshots_taken
+int32 snapshots_total

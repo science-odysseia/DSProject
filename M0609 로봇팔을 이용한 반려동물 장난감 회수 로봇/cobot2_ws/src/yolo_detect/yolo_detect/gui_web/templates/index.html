@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <title>장난감 회수 로봇 — 모니터링</title>
+  <link rel="stylesheet" href="/static/css/style.css" />
+</head>
+<body>
+  <header>
+    <h1>장난감 회수 로봇 모니터링</h1>
+    <span id="conn-badge" class="badge unknown">연결 대기</span>
+  </header>
+
+  <main>
+    <section id="viewer-panel">
+      <h2>3D 맵 (정찰 누적 점군)</h2>
+      <div id="viewer"></div>
+      <p class="hint">
+        <a href="/photo_map" target="_blank" rel="noopener"
+           style="display:inline-block;padding:4px 12px;margin-bottom:6px;background:#2b6cb0;
+                  color:#fff;border-radius:4px;text-decoration:none;font-size:13px">
+          실사맵 보기 (고밀도 컬러 + ICP 정합)</a><br>
+        점 개수: <span id="point-count">0</span>
+        &nbsp;|&nbsp; 회수 경로: <span id="path-info">-</span>
+        &nbsp;<span style="color:#ff3333">━</span> 지나온 길
+        &nbsp;<span style="color:#ff3333">┄</span> 갈 길</p>
+    </section>
+
+    <section id="dashboard-panel">
+      <h2>상태</h2>
+      <dl class="status-grid">
+        <dt>robot_state</dt><dd id="stat-state">-</dd>
+        <dt>robot_mode</dt><dd id="stat-mode">-</dd>
+        <dt>TCP (x,y,z)</dt><dd id="stat-tcp">-</dd>
+        <dt>joints (deg)</dt><dd id="stat-joints">-</dd>
+      </dl>
+
+      <h2>제어</h2>
+      <p class="hint">정지/재개/비상정지/안전상태해제는 확인창 없이 클릭 즉시 실행됩니다.</p>
+      <div class="control-grid">
+        <button id="btn-pause" class="ctrl">정지</button>
+        <button id="btn-resume" class="ctrl">재개</button>
+        <button id="btn-estop" class="ctrl danger">비상정지</button>
+        <button id="btn-safety-reset" class="ctrl">안전상태 해제</button>
+      </div>
+
+      <h2>로그</h2>
+      <pre id="log"></pre>
+    </section>
+  </main>
+
+  <script>
+    window.__WS_HOST = "{{ ws_host }}";
+    window.__WS_PORT = "{{ ws_port }}";
+  </script>
+  <script type="module" src="/static/js/main.js"></script>
+</body>
+</html>
