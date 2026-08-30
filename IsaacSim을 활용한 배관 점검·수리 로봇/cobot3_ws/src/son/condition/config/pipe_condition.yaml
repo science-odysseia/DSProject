@@ -1,0 +1,57 @@
+/**/pipe_condition_node:
+  ros__parameters:
+
+    # ── Depth 무효 판정 ────────────────────────────────────────────
+    # Isaac Sim 이 빈 공간을 0 으로 주면 empty_is_zero,
+    # 최대값·inf 로 채우면 empty_is_far. depth_probe.py 로 먼저 확인할 것.
+    # 이 값이 틀리면 DISCONNECTED 판정이 통째로 작동하지 않는다.
+    invalid_mode: "empty_is_zero"
+    max_range_m: 1.5
+
+    # DISCONNECTED 임계. 합성 장면 실측: 정상군 0.00% / 단절군 9.32%.
+    # 실기에서는 근접 벽면(25mm)이 RealSense 최소 측정 거리에 걸려
+    # 상시 무효율이 올라갈 수 있다. Day 2~3 확인 후 재조정.
+    invalid_ratio_max: 0.02
+
+    # ── UNDETERMINED 임계 ─────────────────────────────────────────
+    # 원형도는 완만한 요철에 둔감해 단독으로는 못 가른다(합성 장면에서 겹침).
+    # 윤곽 반경의 상대 표준편차가 실제 판별자이며, 원형도는 심한 경우용 보조.
+    circularity_min: 0.60
+    roughness_max: 0.015
+    aperture_min_px: 400
+
+    # ── 오프셋 등급 (mm) ──────────────────────────────────────────
+    # 1mm  = DN 대비 1%, 배관 시공 표준 허용 오차
+    # 8mm  = 서스펜션 스트로크 ±6mm + 휠 반경 10mm 등판 한계
+    offset_normal_mm: 1.0
+    offset_slow_mm: 3.0
+    offset_max_mm: 8.0
+
+    # ── 곡관 예외 ─────────────────────────────────────────────────
+    # 관절 엔코더가 이 각도 이상이면 판정을 생략하고 NORMAL 로 둔다.
+    # 곡관에서는 시야에 벽이 들어와 원형도가 정상적으로 떨어지기 때문.
+    bend_angle_deg: 8.0
+
+    # ── 전처리 ────────────────────────────────────────────────────
+    center_patch_frac: 0.10
+    blur_ksize: 5
+    morph_ksize: 5
+
+    # ── 토픽 ──────────────────────────────────────────────────────
+    depth_topic: "front/depth"
+    rgb_topic: "front/rgb"
+    camera_info_topic: "front/camera_info"
+    joint_topic: "joint_angle"
+    condition_topic: "condition"
+    publish_hz: 10.0
+
+    # 투영 방식. 카메라가 어안 보어스코프이므로 fisheye_equidistant.
+    # RealSense 는 최소 측정 거리 52cm 라 적용 불가로 폐기됐다.
+    projection: "fisheye_equidistant"
+
+    # camera_info 를 못 받을 때 쓰는 대체 내부 파라미터
+    # 1280x720, HFOV 140도 등거리 어안:  f = (1280/2) / rad(70) = 523.9
+    fallback_fx: 523.9
+    fallback_fy: 523.9
+    fallback_ppx: 640.0
+    fallback_ppy: 360.0

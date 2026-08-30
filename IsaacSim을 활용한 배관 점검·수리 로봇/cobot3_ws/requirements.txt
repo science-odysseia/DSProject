@@ -1,0 +1,33 @@
+# 배관 점검·수리 로봇 — Python 의존성
+#
+# 🔑 인터프리터가 둘이다. 설치 대상이 서로 다르므로 나눠 적는다.
+#
+#   [A] Isaac Sim 내장 Python 3.11  — 시뮬레이션 본체(src/son)
+#       numpy · opencv · pxr · omni · isaacsim · rclpy 가 **전부 Isaac 에
+#       내장**되어 있다. 따로 설치할 것이 없다.
+#       (rclpy 는 isaacsim.ros2.bridge/humble 안의 3.11 ABI 판을 쓴다 —
+#        run_v13.sh 가 PYTHONPATH·LD_LIBRARY_PATH 로 잡아 준다)
+#
+#   [B] 시스템 Python 3.10 (ROS 2 Humble) — 아래 목록
+#       pip install -r requirements.txt
+
+# ── 공통 (ROS 노드 · 오프라인 시험 · 검출 뷰어) ──────────────────────
+numpy>=1.24,<2.0
+opencv-python>=4.8
+PyYAML>=6.0
+
+# ── 웹 관제 패널 (pipe_comm/web_panel) ──────────────────────────────
+fastapi>=0.110
+uvicorn>=0.27
+
+# ── 웹 3D 맵용 CAD 메시 굽기 (pipe_comm/tools/usd_to_webmesh.py) ────
+# 🔑 Isaac 쪽에서 구워 DDS 로 보내면 없어도 된다. 관제 PC 가 직접 구울 때만.
+usd-core>=23.11
+
+# ── apt 로 받는 것 (pip 아님) ───────────────────────────────────────
+#   sudo apt install ros-humble-desktop ros-humble-rmw-fastrtps-cpp \
+#                    python3-colcon-common-extensions
+#
+# ── 쓰지 않는 것 ────────────────────────────────────────────────────
+#   ultralytics(YOLO) — 이 프로젝트는 결함 검출을 **순수 OpenCV** 로 한다.
+#   학습 가중치를 한 번도 싣지 않았고, 관련 코드는 제출본에서 제외했다.

@@ -1,0 +1,33 @@
+/**/defect_vision_node:
+  ros__parameters:
+
+    # ── 검출 임계 (repair_demo.py find_wall_hole/find_weld_bead 실측값 그대로) ──
+    hole_dark_frac: 0.12       # 5~90분위 밝기 범위에서 이 비율 아래를 "어둡다"로 본다
+    hole_min_px_ref: 300.0     # 1280x720 기준 최소 픽셀 수. 해상도 비례로 자동 스케일
+    bead_sat_min: 60           # HSV 채도 하한(0~255) — 비드만 여기 걸린다
+    bead_val_min: 40
+    bead_min_px_ref: 100.0
+
+    find_holes: true
+    find_beads: true           # 필요 없으면 false — 그만큼 연산도 준다
+
+    # ── 확정 조건 ──────────────────────────────────────────────────
+    # 한 프레임 노이즈로 mark_defect 가 남발되지 않도록 연속 프레임 확인 후 확정.
+    match_dist_px: 40.0        # 이전 프레임과 같은 결함으로 볼 중심 이동 허용치
+    confirm_frames: 2          # 이 프레임 수만큼 연속 관측돼야 확정(YOLO 쪽보다 가볍게)
+    track_timeout_s: 1.0       # 이 시간 이상 안 보이면 트랙을 버린다(다시 보이면 새 ID)
+
+    publish_hz: 5.0            # cv2 전용이라 10Hz 도 되지만 절반으로 시작
+
+    # ── 토픽 ──────────────────────────────────────────────────────
+    rgb_topic: "front/rgb"
+    depth_topic: "front/depth"        # size_mm 추정용. 없어도 검출 자체는 된다
+    camera_info_topic: "front/camera_info"
+    roll_topic: "imu_roll"
+    mark_topic: "mark_defect"          # localization/node.py 의 구독 토픽과 맞춰야 연결된다
+
+    # camera_info 를 못 받을 때 쓰는 대체 내부 파라미터 (condition/config 와 동일값)
+    fallback_fx: 523.9
+    fallback_fy: 523.9
+    fallback_ppx: 640.0
+    fallback_ppy: 360.0

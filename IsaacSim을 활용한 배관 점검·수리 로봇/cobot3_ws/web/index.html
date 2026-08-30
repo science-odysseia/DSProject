@@ -1,0 +1,25 @@
+<!doctype html><html><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pipe Repair Robot</title>
+<link rel="stylesheet" href="/static/panel.css">
+<!-- three.js 는 CDN 이 아니라 /static 벤더 사본이다 — 현장망(오프라인)에서도
+     떠야 한다. 갱신은 파일 교체로 한다 (three@0.160.1). -->
+<script type="importmap">{"imports":{"three":"/static/three.module.min.js"}}</script>
+</head><body>
+
+<!-- 🔑 **한 화면짜리다** (2026-08-10 사용자 지시). 사이드바와 Home·Robot
+     Handling·Detect List 페이지를 걷어내고 3D Map 하나만 남겼다 — 그 화면에
+     상태·결함·지령·카메라가 이미 다 들어 있다. 라우터와 나머지 view 모듈은
+     지우지 않고 남겨 뒀다(app.js 의 ROUTES 에 한 줄 되돌리면 살아난다).
+     연결 표시는 사이드바에 있었으므로 머리말로 옮겼다. -->
+<main id="main">
+ <header id="head">
+  <h1 id="page-title">Pipe Repair Robot</h1>
+  <div id="head-state" class="hstate">상태 수신 대기…</div>
+  <div id="conn" class="conn off">연결 대기…</div>
+ </header>
+ <div id="view"></div>
+</main>
+
+<script type="module" src="/static/app.js"></script>
+</body></html>

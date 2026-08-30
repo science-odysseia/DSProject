@@ -1,0 +1,42 @@
+/**/localization_node:
+  ros__parameters:
+
+    # ── 곡관 판정 ─────────────────────────────────────────────────
+    # 관절 엔코더가 주 신호다(설계 5.2). 진입·이탈에 히스테리시스를 둔다.
+    curve_enter_deg: 8.0
+    curve_exit_deg: 4.0
+    # SR 곡관 호 길이가 0.157m 다. 이 값이 그보다 크면 곡관이 영영 안 끝난다.
+    curve_min_m: 0.05
+
+    # ── 거리 융합 ─────────────────────────────────────────────────
+    # 설계 5.2 는 휠 6개 편차로 슬립을 잡지만 6륜이 동시에 미끄러지면
+    # 편차가 안 생겨 못 잡는다. 시각 오도메트리가 그 구멍을 메운다.
+    # 실측: 슬립 구간에서 거리 오차 21.1% → 2.1% (90% 감소)
+    slip_ratio_min: 0.30      # 이 아래면 헛도는 것으로 보고 시각값만 신뢰
+    visual_trust: 0.9         # 시각 오도메트리 오차가 ±0.25mm 라 더 믿는다
+
+    # ── 곡관 규격 ─────────────────────────────────────────────────
+    # 도면이 없어도 SR 곡관은 표준이라 호 길이를 안다.
+    # 구간 길이만 이 값으로 교체하고 **누적 거리는 건드리지 않는다** —
+    # 임계값 때문에 생기는 경계 오차가 이미 앞뒤 직진에 들어가 있어
+    # 누적까지 보정하면 같은 거리를 두 번 센다(실측 +30mm 오차의 원인).
+    elbow_arc_mm: 157.08      # SR R=100mm, 90°
+    elbow_turn_deg: 90.0
+    arc_snap_tol_mm: 60.0
+    turn_snap_tol_deg: 25.0
+
+    # ── 토픽 ──────────────────────────────────────────────────────
+    wheel_topic: "wheel_speed"
+    visual_topic: "visual_speed"
+    joint_topic: "joint_angle"
+    yaw_topic: "imu_yaw_rate"
+    roll_topic: "imu_roll"
+    mark_topic: "mark_defect"
+    pose_topic: "pose"
+    path_topic: "path"
+    marks_topic: "defect_marks"
+    # 이 시간 동안 wheel_speed 가 안 오면 정지로 본다.
+    # 없으면 발행이 멈춘 뒤에도 마지막 값을 계속 적분해 거리가 늘어난다.
+    input_timeout_s: 0.5
+    rate_hz: 20.0
+    path_every: 10
