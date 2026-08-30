@@ -16,3 +16,4 @@ https://github.com/user-attachments/assets/1065fdd8-fcf7-4b2c-9aee-989bed0f1782
 
 https://github.com/user-attachments/assets/07690226-8a90-406d-bcf1-c45918c75e2c
 
+[SLAM과 Navigation을 활용한 스마트팜](SLAM과 Navigation을 이용한 스마트팜)
